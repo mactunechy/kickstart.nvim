@@ -89,6 +89,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.o.linespace = 6
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -190,7 +191,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-
 -- Custom Remap saving files
 
 vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
@@ -198,7 +198,6 @@ vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w<CR>a', { noremap = true, silent =
 vim.api.nvim_set_keymap('v', '<C-s>', '<Esc>:w<CR>gv', { noremap = true, silent = true })
 
 -- Custom
-
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -576,7 +575,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -632,6 +631,7 @@ require('lazy').setup({
           end,
         },
       }
+      require('lspconfig').gleam.setup {}
     end,
   },
 
@@ -689,15 +689,15 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
+          -- `friendly-snippets`, -- contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -715,6 +715,7 @@ require('lazy').setup({
       luasnip.config.setup {}
 
       cmp.setup {
+
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -777,6 +778,7 @@ require('lazy').setup({
         sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
+          { name = 'supermaven' },
           { name = 'path' },
         },
       }
