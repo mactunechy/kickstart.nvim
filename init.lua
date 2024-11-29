@@ -213,6 +213,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.opt.tabstop = 2 -- Number of visual spaces per tab
+vim.opt.shiftwidth = 2 -- Number of spaces for each auto-indent
+vim.opt.expandtab = true -- Convert tabs to spaces
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -575,7 +579,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {},
+        -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

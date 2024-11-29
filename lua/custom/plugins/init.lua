@@ -109,4 +109,8 @@ return {
     'gleam-lang/gleam.vim',
     ft = 'gleam',
   },
+  { 'mg979/vim-visual-multi' },
+  { 'jgdavey/vim-blockle' },
+  { 'kana/vim-textobj-user' },
+  { 'rhysd/vim-textobj-ruby' },
 }
