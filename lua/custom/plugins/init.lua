@@ -14,19 +14,7 @@ return {
     end,
   },
   { 'tpope/vim-rails', ft = { 'ruby' } },
-  {
-    'mactunechy/rails-view-component-gd.nvim',
-    ft = { 'slim', 'erb', 'rb' },
-    keys = {
-      { '<leader>gd', '<cmd>OpenViewComponentClass <CR>', desc = 'ViewComponent Class' },
-      { '<leader>gk', '<cmd>OpenViewComponentTemplate <CR>', desc = 'ViewComponent Template' },
-      { '<leader>gs', '<cmd>OpenViewComponentSpec <CR>', desc = 'ViewComponent Spec' },
-      { '<leader>gv', '<cmd>ToggleViewComponent <CR>', desc = 'Toggle ViewComponent ClassAndTemplate' },
-    },
-    config = function()
-      require('rails-view-component-gd').setup()
-    end,
-  },
+  { 'tpope/vim-haml', ft = { 'haml' } },
   {
     'nathom/filetype.nvim',
     lazy = false,
@@ -36,6 +24,9 @@ return {
           extensions = {
             slim = 'slim',
             gleam = 'gleam',
+            rb = 'ruby',
+            ruby = 'ruby',
+            haml = 'haml',
           },
         },
       }
@@ -72,7 +63,7 @@ return {
       { '<leader>ts', '<cmd>TestSuite -strategy=neovim<CR>', desc = 'Test Suite' },
     },
     config = function()
-      vim.cmd [[ let test#ruby#rspec#executable = 'bundle exec rspec' ]]
+      vim.cmd [[ let test#ruby#rspec#executable = 'docker exec -it 65winks-web-1 bundle exec rspec' ]]
     end,
   },
   {
@@ -112,5 +103,64 @@ return {
   { 'mg979/vim-visual-multi' },
   { 'jgdavey/vim-blockle' },
   { 'kana/vim-textobj-user' },
-  { 'rhysd/vim-textobj-ruby' },
+  -- Operator-pending mapping r is added. dir, yar and other mappings are available like diw, yi'. if, unless, case, while, until, for, def, module, class, do, begin blocks are selected as text-objects.
+  { 'rhysd/vim-textobj-ruby', ft = { 'ruby' } },
+  {
+    'jackMort/ChatGPT.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require('chatgpt').setup {
+        -- this config assumes you have OPENAI_API_KEY environment variable set
+        openai_params = {
+          model = 'gpt-4-1106-preview',
+          frequency_penalty = 0,
+          presence_penalty = 0,
+          max_tokens = 4095,
+          temperature = 0.2,
+          top_p = 0.1,
+          n = 1,
+        },
+      }
+    end,
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-lua/plenary.nvim',
+      'folke/trouble.nvim', -- optional
+      'nvim-telescope/telescope.nvim',
+    },
+  },
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      { 'tpope/vim-dadbod', lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+      vim.g.dbs = {
+        { name = '65winks', url = 'mysql://root@0.0.0.0:3306/sixty_five_winks_development' },
+      }
+    end,
+  },
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    ---@type Flash.Config
+    opts = {},
+  -- stylua: ignore
+  keys = {
+    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+  },
+  },
 }
