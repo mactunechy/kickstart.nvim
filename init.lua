@@ -158,6 +158,11 @@ vim.opt.scrolloff = 10
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Quickfix list
+vim.keymap.set('n', '<leader>qo', ':copen<CR>', { noremap = true, silent = true, desc = 'Open Quickfix List' })
+vim.keymap.set('n', '<leader>qc', ':cclose<CR>', { noremap = true, silent = true, desc = 'Close Quickfix List' })
+vim.keymap.set('n', '<leader>qq', ':cexpr []<CR>', { noremap = true, silent = true, desc = 'Clear Quickfix List' })
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

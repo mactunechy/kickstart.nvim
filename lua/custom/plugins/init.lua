@@ -22,8 +22,6 @@ return {
       require('filetype').setup {
         overrides = {
           extensions = {
-            slim = 'slim',
-            gleam = 'gleam',
             rb = 'ruby',
             ruby = 'ruby',
             haml = 'haml',
@@ -31,10 +29,6 @@ return {
         },
       }
     end,
-  },
-  {
-    'slim-template/vim-slim',
-    ft = 'slim',
   },
   {
     'kdheepak/lazygit.nvim',
@@ -63,7 +57,8 @@ return {
       { '<leader>ts', '<cmd>TestSuite -strategy=neovim<CR>', desc = 'Test Suite' },
     },
     config = function()
-      vim.cmd [[ let test#ruby#rspec#executable = 'docker exec -it 65winks-web-1 bundle exec rspec' ]]
+      vim.cmd [[ let test#neovim#term_position = "vert" ]]
+      vim.cmd [[ let test#ruby#rspec#executable = 'bundle exec rspec' ]]
     end,
   },
   {
@@ -82,7 +77,6 @@ return {
           clear_suggestion = '<C-]>',
           accept_word = '<C-j>',
         },
-        ignore_filetypes = { cpp = true }, -- or { "cpp", }
         color = {
           suggestion_color = '#ffffff',
           cterm = 244,
@@ -95,10 +89,6 @@ return {
         end, -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
       }
     end,
-  },
-  {
-    'gleam-lang/gleam.vim',
-    ft = 'gleam',
   },
   { 'mg979/vim-visual-multi' },
   { 'jgdavey/vim-blockle' },
@@ -162,5 +152,12 @@ return {
     { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
   },
+  },
+  {
+    'mbbill/undotree',
+    event = 'VeryLazy',
+    keys = {
+      { '<leader>u', '<cmd>UndotreeToggle<cr>', desc = 'Undotree' },
+    },
   },
 }
